@@ -2,8 +2,8 @@ object frmAbastecimento: TfrmAbastecimento
   Left = 0
   Top = 0
   Caption = 'Abastecimento'
-  ClientHeight = 424
-  ClientWidth = 999
+  ClientHeight = 420
+  ClientWidth = 997
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,13 +16,11 @@ object frmAbastecimento: TfrmAbastecimento
   TextHeight = 15
   object pnlBarraInferior: TPanel
     Left = 0
-    Top = 362
-    Width = 999
+    Top = 358
+    Width = 997
     Height = 62
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 358
-    ExplicitWidth = 997
     object btnAbastecer: TButton
       Left = 383
       Top = 10
@@ -54,26 +52,22 @@ object frmAbastecimento: TfrmAbastecimento
   object pgcPrincipal: TPageControl
     Left = 0
     Top = 0
-    Width = 999
-    Height = 362
+    Width = 997
+    Height = 358
     ActivePage = tbCadastro
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 997
-    ExplicitHeight = 358
     object tbLista: TTabSheet
       Caption = 'Lista'
       object sgListaAbastecimento: TStringGrid
         Left = 0
         Top = 0
-        Width = 991
-        Height = 332
+        Width = 989
+        Height = 328
         Align = alClient
         FixedCols = 0
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goFixedRowDefAlign]
         TabOrder = 0
-        ExplicitWidth = 989
-        ExplicitHeight = 328
       end
     end
     object tbCadastro: TTabSheet

@@ -83,8 +83,6 @@ type
     fListaAbastecimentos: TList<TAbastecimento>;
     //
     procedure IncluirRegistro;
-    procedure ExcluirRegistro;
-    procedure ConfirmarRegistro;
     procedure CancelarRegistro;
     procedure ConfiguracoesIniciais;
     procedure LimparCampos;
@@ -96,10 +94,16 @@ type
     procedure PreparaGrade;
     procedure LimpaGrade;
     procedure CalculaTudo;
-    function ValidaCampos: Boolean;
+    function ValidaCampos(pDataAbastecimento: TDatetime; pIdBomba, pIdCombustivel,
+  pIdImposto: integer; pQtdLitros, pValorAbastecimento, pValorImposto, pValorFinalAbastecimento: Double;
+  var pErro: string): Boolean;
     procedure AtualizaGrade;
   public
     { Public declarations }
+    function ExcluirRegistro(pIdAbastecimento: integer; var pErro: string): Boolean;
+    function ConfirmarRegistro(pDataAbastecimento: TDatetime; pIdBomba, pIdCombustivel,
+      pIdImposto: integer; pQtdLitros, pValorAbastecimento, pValorImposto,
+      pValorFinalAbastecimento: Double; var pErro: string): Boolean;
   end;
 
 var
@@ -136,16 +140,43 @@ begin
 end;
 
 procedure TfrmAbastecimento.btnConfirmarClick(Sender: TObject);
+var
+  vErro: string;
 begin
-  ConfirmarRegistro;
+  vErro := '';
+  if not ConfirmarRegistro(
+    StrToDate(leDataAbastecimento.Text),
+    cbxBomba.ItemsEx[cbxBomba.ItemIndex].ImageIndex,
+    cbxCombustivel.ItemsEx[cbxCombustivel.ItemIndex].ImageIndex,
+    cbxImposto.ItemsEx[cbxImposto.ItemIndex].ImageIndex,
+    StrToFloat(leQtdLitros.Text),
+    StrToFloat(leValorAbastecimento.Text),
+    StrToFloat(leValorImposto.Text),
+    StrToFloat(leValorFinalAbastecimento.Text),
+    vErro) then
+  begin
+    MessageDlg(vErro, mtError ,[mbOk], 0);
+    Exit;
+  end;
+
+  AtualizaGrade;
 end;
 
 procedure TfrmAbastecimento.btnExcluirClick(Sender: TObject);
+var
+  vErro: string;
 begin
-
   /// OBS: essa rotina nao foi pedida mas apenas a criei pra demosntrar que é possivel executar outras rotinas de um CRUD
   //       usando a estrutura criada
-  ExcluirRegistro;
+  if not ExcluirRegistro(
+    StrToInt(sgListaAbastecimento.Cells[sgListaAbastecimento.Selection.Left, sgListaAbastecimento.Selection.Top]),
+    vErro) then
+  begin
+    MessageDlg(vErro, mtError ,[mbOk], 0);
+    Exit;
+  end;
+
+  AtualizaGrade;
 end;
 
 procedure TfrmAbastecimento.btnCancelarClick(Sender: TObject);
@@ -195,7 +226,7 @@ begin
   CalculaTudo;
 end;
 
-procedure TfrmAbastecimento.ExcluirRegistro;
+function TfrmAbastecimento.ExcluirRegistro(pIdAbastecimento: integer; var pErro: string): boolean;
 var
   vErro: string;
 begin
@@ -205,15 +236,7 @@ begin
     Exit;
 
   if MessageDlg('Confirma exclusão do registro ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-  begin
-    if not fAbastecimentoController.ExcluiAbastecimento(StrToInt(sgListaAbastecimento.Cells[sgListaAbastecimento.Selection.Left, sgListaAbastecimento.Selection.Top]), vErro) then
-    begin
-      MessageDlg(vErro, mtError ,[mbOk], 0);
-      Exit;
-    end;
-  end;
-
-  AtualizaGrade;
+    Result :=  fAbastecimentoController.ExcluiAbastecimento(pIdAbastecimento, pErro);
 end;
 
 procedure TfrmAbastecimento.FormClose(Sender: TObject;
@@ -364,31 +387,33 @@ begin
   PreparaGrade;
 end;
 
-function TfrmAbastecimento.ValidaCampos: Boolean;
+function TfrmAbastecimento.ValidaCampos(pDataAbastecimento: TDatetime; pIdBomba, pIdCombustivel,
+  pIdImposto: integer; pQtdLitros, pValorAbastecimento, pValorImposto, pValorFinalAbastecimento: Double;
+  var pErro: string): Boolean;
 begin
   Result := False;
-  if cbxBomba.ItemIndex < 0 then
+  if pIdBomba < 0 then
   begin
-    MessageDlg('Bomba não informada!', mtInformation,[mbOk], 0);
+    pErro := 'Bomba não informada!';
     cbxBomba.SetFocus;
     Exit;
   end;
-  if cbxCombustivel.ItemIndex < 0 then
+  if pIdCombustivel < 0 then
   begin
-    MessageDlg('Combustivel não informado!', mtInformation,[mbOk], 0);
+    pErro := 'Combustivel não informado!';
     cbxCombustivel.SetFocus;
     Exit;
   end;
-  if cbxImposto.ItemIndex < 0 then
+  if pIdImposto < 0 then
   begin
-    MessageDlg('Imposto não informado!', mtInformation,[mbOk], 0);
+    pErro := 'Imposto não informado!';
     cbxImposto.SetFocus;
     Exit;
   end;
 
-  if StrToFloat(leQtdLitros.Text) <= 0 then
+  if pQtdLitros <= 0 then
   begin
-    MessageDlg('Qtd de litros inválida!', mtInformation,[mbOk], 0);
+    pErro := 'Qtd de litros inválida!';
     leQtdLitros.SetFocus;
     Exit;
   end;
@@ -396,34 +421,49 @@ begin
   Result := True;
 end;
 
-procedure TfrmAbastecimento.ConfirmarRegistro;
+function TfrmAbastecimento.ConfirmarRegistro(pDataAbastecimento: TDatetime; pIdBomba, pIdCombustivel,
+  pIdImposto: integer; pQtdLitros, pValorAbastecimento, pValorImposto, pValorFinalAbastecimento: Double;
+  var pErro: string): Boolean;
 var
   vAbastecimento: TAbastecimento;
-  vErro: string;
 begin
-  if not ValidaCampos then
+  if not ValidaCampos(pDataAbastecimento, pIdBomba, pIdCombustivel, pIdImposto,
+    pQtdLitros, pValorAbastecimento, pValorImposto, pValorFinalAbastecimento, pErro) then
+  begin
+    Result := False;
     Exit;
+  end;
 
   vAbastecimento := TAbastecimento.Create;
-  vAbastecimento.DataAbastecimento := StrToDate(leDataAbastecimento.Text);
-  vAbastecimento.Bomba := fBombaController.CarregarBomba(cbxBomba.ItemsEx[cbxBomba.ItemIndex].ImageIndex);
-  vAbastecimento.Combustivel := fCombustivelController.CarregarCombustivel(cbxCombustivel.ItemsEx[cbxCombustivel.ItemIndex].ImageIndex);
-  vAbastecimento.Imposto := fImpostoController.CarregarImposto(cbxImposto.ItemsEx[cbxImposto.ItemIndex].ImageIndex);
-  vAbastecimento.QtdLitros := StrToFloat(leQtdLitros.Text);
-  vAbastecimento.ValorAbastecimento := StrToFloat(leValorAbastecimento.Text);
-  vAbastecimento.ValorImposto := StrToFloat(leValorImposto.Text);
-  vAbastecimento.ValorFinalAbastecimento := StrToFloat(leValorFinalAbastecimento.Text);
+  vAbastecimento.DataAbastecimento := pDataAbastecimento;
+  vAbastecimento.Bomba := fBombaController.CarregarBomba(pIdBomba);
+  vAbastecimento.Combustivel := fCombustivelController.CarregarCombustivel(pIdCombustivel);
+  vAbastecimento.Imposto := fImpostoController.CarregarImposto(pIdImposto);
+  vAbastecimento.QtdLitros := pQtdLitros;
+  vAbastecimento.ValorAbastecimento := pValorAbastecimento;
+  vAbastecimento.ValorImposto := pValorImposto;
+  vAbastecimento.ValorFinalAbastecimento := pValorFinalAbastecimento;
 
-  if fAcao = acIncluir then
-  begin
-    vErro := '';
-    if not fAbastecimentoController.GeraAbastecimento(vAbastecimento, vErro) then
-    begin
-      MessageDlg(vErro, mtError ,[mbOk], 0);
-      Exit;
-    end;
-  end;
-  AtualizaGrade;
+  Result := fAbastecimentoController.GeraAbastecimento(vAbastecimento, pErro);
+
+//  vAbastecimento.DataAbastecimento := StrToDate(leDataAbastecimento.Text);
+//  vAbastecimento.Bomba := fBombaController.CarregarBomba(cbxBomba.ItemsEx[cbxBomba.ItemIndex].ImageIndex);
+//  vAbastecimento.Combustivel := fCombustivelController.CarregarCombustivel(cbxCombustivel.ItemsEx[cbxCombustivel.ItemIndex].ImageIndex);
+//  vAbastecimento.Imposto := fImpostoController.CarregarImposto(cbxImposto.ItemsEx[cbxImposto.ItemIndex].ImageIndex);
+//  vAbastecimento.QtdLitros := StrToFloat(leQtdLitros.Text);
+//  vAbastecimento.ValorAbastecimento := StrToFloat(leValorAbastecimento.Text);
+//  vAbastecimento.ValorImposto := StrToFloat(leValorImposto.Text);
+//  vAbastecimento.ValorFinalAbastecimento := StrToFloat(leValorFinalAbastecimento.Text);
+
+//  if fAcao = acIncluir then
+//  begin
+//    vErro := '';
+//    if not fAbastecimentoController.GeraAbastecimento(vAbastecimento, pErro) then
+//    begin
+//      MessageDlg(vErro, mtError ,[mbOk], 0);
+//      Exit;
+//    end;
+//  end;
 end;
 
 procedure TfrmAbastecimento.AtualizaGrade;
