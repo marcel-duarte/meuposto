@@ -72,7 +72,7 @@ begin
           ' FROM ABASTECIMENTO A '+
           ' LEFT JOIN BOMBA B ON B.IDBOMBA = A.IDBOMBA '+
           ' LEFT JOIN TANQUE T ON T.IDTANQUE = B.IDTANQUE '+
-          ' WHERE A.DATAABASTECIMENTO BETWEEN '+QuotedStr(FormatDateTime('dd.mm.yyyy',vDataFinal))+
+          ' WHERE A.DATAABASTECIMENTO BETWEEN '+QuotedStr(FormatDateTime('dd.mm.yyyy',vDataInicial))+
           '    AND '+QuotedStr(FormatDateTime('dd.mm.yyyy',vDataFinal))+
           ' GROUP BY 1,2,3,4,5 '+
           ' ORDER BY A.DATAABASTECIMENTO ';
@@ -80,6 +80,10 @@ begin
   FDConnection.Activate;
 
   dsRelatorioAbastecimentos.DataSet := FDConnection.ListaRegistros;
+
+  // coloca mascara nos valores monetarios
+  (dsRelatorioAbastecimentos.DataSet.Fields[5] as TFMTBCDField).DisplayFormat := '#0.00';
+  (dsRelatorioAbastecimentos.DataSet.Fields[6] as TFMTBCDField).DisplayFormat := '#0.00';
 end;
 
 

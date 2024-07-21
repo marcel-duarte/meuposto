@@ -15,14 +15,6 @@ type
     FDConnection: TFDConnection;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
     FDQuery: TFDQuery;
-    FDQuery1: TFDQuery;
-    FDQuery1DATAABASTECIMENTO: TDateField;
-    FDQuery1IDBOMBA: TIntegerField;
-    FDQuery1DESC_BOMBA: TStringField;
-    FDQuery1IDTANQUE: TIntegerField;
-    FDQuery1DESC_TANQUE: TStringField;
-    FDQuery1TOTAL_ABAST_BRT_DIA: TFMTBCDField;
-    FDQuery1TOTAL_ABAST_LIQ_DIA: TFMTBCDField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
