@@ -1,2 +1,8 @@
-SYSDBA
-SENHA: 123456 ou masterkey
+USU: SYSDBA
+SENHA: masterkey
+
+
+Para criação do banco e para preenchê-lo inicialmente, executar os scripts na sequencia definida do 000 ao 004.
+
+
+
