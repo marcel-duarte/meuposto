@@ -12,11 +12,9 @@ type
   TCombustivelController = class
   private
     fCombustivelDao: TCombustivelDao;
-    //fListaCombustiveis: TList<TCombustivel>;
   public
     constructor Create;
     destructor Destroy; override;
-    //property ListaCombustiveis: TList<TCombustivel> read fListaCombustiveis write fListaCombustiveis;
 
     function CarregarCombustivel(pId: Integer): TCombustivel;
     function CarregarCombustiveis: TList<TCombustivel>;
@@ -34,13 +32,11 @@ end;
 constructor TCombustivelController.Create;
 begin
   fCombustivelDao := TCombustivelDao.Create;
-  //fListaCombustiveis := TList<TCombustivel>.Create;
 end;
 
 destructor TCombustivelController.Destroy;
 begin
   fCombustivelDao.DisposeOf;
-  //fListaCombustiveis.DisposeOf;
   inherited;
 end;
 

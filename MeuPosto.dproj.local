@@ -75,5 +75,36 @@
     <Transaction>2024/07/20 17:15:03.000.909,=C:\Marcel\Projetos\Delphi\MeuPosto\Controller\uBombaController.pas</Transaction>
     <Transaction>2024/07/21 16:24:09.310,=C:\Marcel\Projetos\Delphi\MeuPosto\Reports\uRelatorioAbastecimentosPrint.pas</Transaction>
     <Transaction>2024/07/21 16:24:28.820,=C:\Marcel\Projetos\Delphi\MeuPosto\Views\uRelatorioAbastecimentos.pas</Transaction>
-  </Transactions>
+  </Transactions>  <ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="Controller"/>
+    <File Path="Controller\uAbastecimentoController.pas"/>
+    <File Path="Controller\uBombaController.pas"/>
+    <File Path="Controller\uCombustivelController.pas"/>
+    <File Path="Controller\uImpostoController.pas"/>
+    <File Path="Dao"/>
+    <File Path="Dao\uAbastecimentoDao.pas"/>
+    <File Path="Dao\uBombaDao.pas"/>
+    <File Path="Dao\uCombustivelDao.pas"/>
+    <File Path="Dao\uImpostoDao.pas"/>
+    <File Path="Dao\uPrincipalDao.pas"/>
+    <File Path="Dao\uPrincipalDao.dfm"/>
+    <File Path="Dao\uTanqueDao.pas"/>
+    <File Path="Models"/>
+    <File Path="Models\uAbastecimentoModel.pas"/>
+    <File Path="Models\UBombaModel.pas"/>
+    <File Path="Models\uCombustivelModel.pas"/>
+    <File Path="Models\uImpostoModel.pas"/>
+    <File Path="Models\uListaImpostos.pas"/>
+    <File Path="Models\uTanqueModel.pas"/>
+    <File Path="Reports"/>
+    <File Path="Reports\uRelatorioAbastecimentosPrint.pas"/>
+    <File Path="Reports\uRelatorioAbastecimentosPrint.dfm"/>
+    <File Path="Views"/>
+    <File Path="Views\uAbastecimentoView.pas"/>
+    <File Path="Views\uAbastecimentoView.dfm"/>
+    <File Path="Views\uPrincipalView.pas"/>
+    <File Path="Views\uPrincipalView.dfm"/>
+    <File Path="Views\uRelatorioAbastecimentos.pas"/>
+    <File Path="Views\uRelatorioAbastecimentos.dfm"/>
+  </ProjectSortOrder>
 </BorlandProject>

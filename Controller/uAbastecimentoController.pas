@@ -11,12 +11,11 @@ type
 
   TAbastecimentoController = class
     fAbastecimentoDao: TAbastecimentoDao;
-  private
-    //fListaAbastecimentos: TList<TAbastecimento>;
   public
     constructor Create;
     destructor Destroy; override;
     function GeraAbastecimento(pAbastecimento: TAbastecimento; var pErro: string): Boolean;
+    function ExcluiAbastecimento(pId: Integer; var pErro: string): Boolean;
     function CarregaAbastecimentos: TList<TAbastecimento>;
     function CalculaImposto(pValor, pPercentImposto: Double): Double;
     function CalculaValorAbastecido(pQtdLitros, pValorLitro: Double): Double;
@@ -35,6 +34,12 @@ destructor TAbastecimentoController.Destroy;
 begin
   fAbastecimentoDao.DisposeOf;
   inherited;
+end;
+
+function TAbastecimentoController.ExcluiAbastecimento(pId: Integer;
+  var pErro: string): Boolean;
+begin
+  Result := fAbastecimentoDao.ExcluiAbastecimento(pId, pErro);
 end;
 
 function TAbastecimentoController.GeraAbastecimento(

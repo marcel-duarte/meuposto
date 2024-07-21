@@ -23,6 +23,7 @@ type
     constructor Create;
     destructor Destroy; override;
     function GeraAbastecimento(pAbastecimento: TAbastecimento; var pErro: string): Boolean;
+    function ExcluiAbastecimento(pId: Integer; var pErro: string): Boolean;
     function CarregaAbastecimento(pAbastecimento: TAbastecimento; var pErro: string): Boolean;
     function CarregaAbastecimentos: TList<TAbastecimento>;
     //
@@ -50,6 +51,30 @@ begin
   inherited;
 end;
 
+function TAbastecimentoDao.ExcluiAbastecimento(pId: Integer;
+  var pErro: string): Boolean;
+var
+  vSql: string;
+begin
+  Result := False;
+  FDConnection.StartTransaction;
+  try
+    vSql := 'DELETE FROM ABASTECIMENTO A WHERE A.IDABASTECIMENTO = ?';
+    FDConnection.PrepareStatement(vSql);
+    FDConnection.SetValue(0, pId);
+    FDConnection.ExecSQL;
+    FDConnection.Commit;
+    Result := True;
+  except
+    on e: exception do
+      begin
+        FDConnection.Rollback;
+        pErro := 'Erro ao excluir abastecimento: ' + E.Message;
+        Result := False;
+      end;
+  end;
+end;
+
 function TAbastecimentoDao.GeraAbastecimento(pAbastecimento: TAbastecimento; var pErro: string): Boolean;
 var
   vSql: string;
@@ -70,6 +95,7 @@ begin
     FDConnection.SetValue(7, pAbastecimento.ValorFinalAbastecimento);
     FDConnection.ExecSQL;
     FDConnection.Commit;
+    Result := True;
   except
     on e: exception do
       begin
@@ -111,12 +137,6 @@ begin
     vId := FDConnection.GetValue(3);
     pAbastecimento.Imposto := ImpostoDao.CarregarImposto(vId);
 
-//    if pAbastecimento.Imposto = nil then
-//    begin
-//      MessageDlg('Imposto não encontrado.', mtError ,[mbOk], 0);
-//      Exit;
-//    end;
-
     pAbastecimento.QtdLitros := FDConnection.GetValue(4);
     pAbastecimento.DataAbastecimento := FDConnection.GetValue(5);
     pAbastecimento.ValorAbastecimento := FDConnection.GetValue(6);
@@ -142,8 +162,9 @@ var
 begin
   vListaAbastecimentos := TList<TAbastecimento>.Create;
   try
-    vSql := 'SELECT IDABASTECIMENTO, IDBOMBA, IDCOMBUSTIVEL, IDIMPOSTO, QTDLITROS, DATAABASTECIMENTO, '+
-            '   VALORABASTECIMENTO, VALORIMPOSTO, VALORFINALABASTECIMENTO FROM ABASTECIMENTO ';
+    vSql := ' SELECT IDABASTECIMENTO, IDBOMBA, IDCOMBUSTIVEL, IDIMPOSTO, QTDLITROS, DATAABASTECIMENTO, '+
+            '   VALORABASTECIMENTO, VALORIMPOSTO, VALORFINALABASTECIMENTO '+
+            ' FROM ABASTECIMENTO ORDER BY IDABASTECIMENTO';
 
     FDConnection.PrepareStatement(vSql);
     FDConnection.Activate;

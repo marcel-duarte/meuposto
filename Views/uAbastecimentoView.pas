@@ -3,31 +3,46 @@ unit uAbastecimentoView;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.StrUtils, System.Variants,
-  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, Datasnap.DBClient,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error,
-  FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async,
-  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Mask, uPrincipalDao,
-  uAbastecimentoController, uAbastecimentoModel, Vcl.DBCtrls, uBombaController,
-  UBombaModel, System.Generics.Collections, uImpostoModel, uImpostoController,
-  uCombustivelModel, uCombustivelController, System.UITypes, DateUtils;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.StrUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.Grids,
+  Vcl.DBGrids,
+  Vcl.ComCtrls,
+  Vcl.Mask,
+  uAbastecimentoController,
+  uAbastecimentoModel,
+  Vcl.DBCtrls,
+  uBombaController,
+  UBombaModel,
+  System.Generics.Collections,
+  uImpostoModel,
+  uImpostoController,
+  uCombustivelModel,
+  uCombustivelController,
+  System.UITypes,
+  DateUtils;
 
 type
-  TAcao = (acIncluir, acAlterar, acExcluir, acConsultar);
+  TAcao = (acIncluir, acExcluir);
 
   TfrmAbastecimento = class(TForm)
     pnlBarraInferior: TPanel;
     btnAbastecer: TButton;
-    btnAlterar: TButton;
     btnExcluir: TButton;
-    btnConsultar: TButton;
     btnSair: TButton;
     pgcPrincipal: TPageControl;
     tbLista: TTabSheet;
     tbCadastro: TTabSheet;
-    dbgAbastecimento: TDBGrid;
-    dsAbastecimento: TDataSource;
     leId: TLabeledEdit;
     leQtdLitros: TLabeledEdit;
     leDataAbastecimento: TLabeledEdit;
@@ -48,13 +63,11 @@ type
     //
     procedure btnSairClick(Sender: TObject);
     procedure btnAbastecerClick(Sender: TObject);
-    procedure btnAlterarClick(Sender: TObject);
     procedure btnConfirmarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnExcluirClick(Sender: TObject);
-    procedure btnConsultarClick(Sender: TObject);
     procedure leQtdLitrosKeyPress(Sender: TObject; var Key: Char);
     procedure cbxImpostoSelect(Sender: TObject);
     procedure leValorAbastecimentoExit(Sender: TObject);
@@ -63,7 +76,6 @@ type
   private
     { Private declarations }
     fAcao: TAcao;
-    //fListaImpostos: TListaImpostos;
     fAbastecimentoController: TAbastecimentoController;
     fBombaController: TBombaController;
     fImpostoController: TImpostoController;
@@ -71,9 +83,7 @@ type
     fListaAbastecimentos: TList<TAbastecimento>;
     //
     procedure IncluirRegistro;
-    procedure AlterarRegistro;
     procedure ExcluirRegistro;
-    procedure ConsultarRegistro;
     procedure ConfirmarRegistro;
     procedure CancelarRegistro;
     procedure ConfiguracoesIniciais;
@@ -86,6 +96,8 @@ type
     procedure PreparaGrade;
     procedure LimpaGrade;
     procedure CalculaTudo;
+    function ValidaCampos: Boolean;
+    procedure AtualizaGrade;
   public
     { Public declarations }
   end;
@@ -118,11 +130,6 @@ begin
   IncluirRegistro;
 end;
 
-procedure TfrmAbastecimento.btnAlterarClick(Sender: TObject);
-begin
-  AlterarRegistro;
-end;
-
 procedure TfrmAbastecimento.btnSairClick(Sender: TObject);
 begin
   Close;
@@ -133,13 +140,11 @@ begin
   ConfirmarRegistro;
 end;
 
-procedure TfrmAbastecimento.btnConsultarClick(Sender: TObject);
-begin
-  ConsultarRegistro;
-end;
-
 procedure TfrmAbastecimento.btnExcluirClick(Sender: TObject);
 begin
+
+  /// OBS: essa rotina nao foi pedida mas apenas a criei pra demosntrar que é possivel executar outras rotinas de um CRUD
+  //       usando a estrutura criada
   ExcluirRegistro;
 end;
 
@@ -166,8 +171,6 @@ begin
   leValorImposto.Text := FormatFloat('#,##0.00',vValor);
   vValor := StrToFloat(leValorAbastecimento.Text) - StrToFloat(leValorImposto.Text);
   leValorFinalAbastecimento.Text := FormatFloat('#,##0.00',vValor);
-
-  /// criar uma proc q calcula tudo passando params e devolvendo para os campos
 end;
 
 procedure TfrmAbastecimento.leQtdLitrosExit(Sender: TObject);
@@ -192,26 +195,25 @@ begin
   CalculaTudo;
 end;
 
-procedure TfrmAbastecimento.ConsultarRegistro;
-begin
-  fAcao := acConsultar;
-  //
-end;
-
-procedure TfrmAbastecimento.AlterarRegistro;
-begin
-  pgcPrincipal.ActivePageIndex := 1;
-  leId.SetFocus;
-  fAcao := acAlterar;
-end;
-
 procedure TfrmAbastecimento.ExcluirRegistro;
+var
+  vErro: string;
 begin
   fAcao := acExcluir;
+
+  if sgListaAbastecimento.RowCount = 0 then
+    Exit;
+
   if MessageDlg('Confirma exclusão do registro ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
-     //
+    if not fAbastecimentoController.ExcluiAbastecimento(StrToInt(sgListaAbastecimento.Cells[sgListaAbastecimento.Selection.Left, sgListaAbastecimento.Selection.Top]), vErro) then
+    begin
+      MessageDlg(vErro, mtError ,[mbOk], 0);
+      Exit;
+    end;
   end;
+
+  AtualizaGrade;
 end;
 
 procedure TfrmAbastecimento.FormClose(Sender: TObject;
@@ -293,8 +295,6 @@ begin
   fImpostoController := TImpostoController.Create;
   fListaAbastecimentos := TList<TAbastecimento>.Create;
   //
-  //ConectaBancoDados;
-  //
   tbLista.TabVisible := False;
   tbCadastro.TabVisible := False;
   pgcPrincipal.ActivePage := tbLista;
@@ -312,10 +312,6 @@ procedure TfrmAbastecimento.PreparaGrade;
 var
   vCount: integer;
 begin
-//  if fListaAbastecimentos.Count > 0 then
-//    vCount :=  + 1
-//  else
-//    vCount := 1;
   sgListaAbastecimento.RowCount := fListaAbastecimentos.Count+1;
   sgListaAbastecimento.FixedRows := 1;
 
@@ -331,11 +327,11 @@ begin
   sgListaAbastecimento.Cells[8,0] := 'Valor Final Abastec. (R$)';
 
   sgListaAbastecimento.ColWidths[0] := 64;
-  sgListaAbastecimento.ColWidths[1] := 116;
-  sgListaAbastecimento.ColWidths[2] := 128;
+  sgListaAbastecimento.ColWidths[1] := 130;
+  sgListaAbastecimento.ColWidths[2] := 130;
   sgListaAbastecimento.ColWidths[3] := 80;
   sgListaAbastecimento.ColWidths[4] := 68;
-  sgListaAbastecimento.ColWidths[5] := 91;
+  sgListaAbastecimento.ColWidths[5] := 97;
   sgListaAbastecimento.ColWidths[6] := 110;
   sgListaAbastecimento.ColWidths[7] := 115;
   sgListaAbastecimento.ColWidths[8] := 167;
@@ -368,11 +364,46 @@ begin
   PreparaGrade;
 end;
 
+function TfrmAbastecimento.ValidaCampos: Boolean;
+begin
+  Result := False;
+  if cbxBomba.ItemIndex < 0 then
+  begin
+    MessageDlg('Bomba não informada!', mtInformation,[mbOk], 0);
+    cbxBomba.SetFocus;
+    Exit;
+  end;
+  if cbxCombustivel.ItemIndex < 0 then
+  begin
+    MessageDlg('Combustivel não informado!', mtInformation,[mbOk], 0);
+    cbxCombustivel.SetFocus;
+    Exit;
+  end;
+  if cbxImposto.ItemIndex < 0 then
+  begin
+    MessageDlg('Imposto não informado!', mtInformation,[mbOk], 0);
+    cbxImposto.SetFocus;
+    Exit;
+  end;
+
+  if StrToFloat(leQtdLitros.Text) <= 0 then
+  begin
+    MessageDlg('Qtd de litros inválida!', mtInformation,[mbOk], 0);
+    leQtdLitros.SetFocus;
+    Exit;
+  end;
+
+  Result := True;
+end;
+
 procedure TfrmAbastecimento.ConfirmarRegistro;
 var
   vAbastecimento: TAbastecimento;
   vErro: string;
 begin
+  if not ValidaCampos then
+    Exit;
+
   vAbastecimento := TAbastecimento.Create;
   vAbastecimento.DataAbastecimento := StrToDate(leDataAbastecimento.Text);
   vAbastecimento.Bomba := fBombaController.CarregarBomba(cbxBomba.ItemsEx[cbxBomba.ItemIndex].ImageIndex);
@@ -386,36 +417,28 @@ begin
   if fAcao = acIncluir then
   begin
     vErro := '';
-    fAbastecimentoController.GeraAbastecimento(vAbastecimento, vErro);
-    if vErro <> EmptyStr then
+    if not fAbastecimentoController.GeraAbastecimento(vAbastecimento, vErro) then
     begin
       MessageDlg(vErro, mtError ,[mbOk], 0);
       Exit;
     end;
   end;
-  if fAcao = acAlterar then
-  begin
-{   // nao de precisar disso
-    fAbastecimentoController.AlteraAbastecimento(vAbastecimento, vErro);
-    if vErro <> EmptyStr then
-    begin
-      MessageDlg(vErro, mtError ,[mbOk], 0);
-      Exit;
-    end;
-}
-  end;
-  //
+  AtualizaGrade;
+end;
+
+procedure TfrmAbastecimento.AtualizaGrade;
+begin
   fListaAbastecimentos := fAbastecimentoController.CarregaAbastecimentos;
   LimpaGrade;
   PreencheGrade;
   pgcPrincipal.ActivePage := tbLista;
-  dbgAbastecimento.SetFocus;
+  sgListaAbastecimento.SetFocus;
 end;
 
 procedure TfrmAbastecimento.CancelarRegistro;
 begin
   pgcPrincipal.ActivePage := tbLista;
-  dbgAbastecimento.SetFocus;
+  sgListaAbastecimento.SetFocus;
 end;
 
 end.

@@ -2,7 +2,7 @@ object frmAbastecimento: TfrmAbastecimento
   Left = 0
   Top = 0
   Caption = 'Abastecimento'
-  ClientHeight = 421
+  ClientHeight = 424
   ClientWidth = 999
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -10,61 +10,44 @@ object frmAbastecimento: TfrmAbastecimento
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
   TextHeight = 15
   object pnlBarraInferior: TPanel
     Left = 0
-    Top = 359
+    Top = 362
     Width = 999
     Height = 62
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 355
+    ExplicitTop = 358
     ExplicitWidth = 997
     object btnAbastecer: TButton
-      Left = 386
-      Top = 16
-      Width = 116
-      Height = 30
+      Left = 383
+      Top = 10
+      Width = 230
+      Height = 38
       Caption = 'Abastercer'
       TabOrder = 0
       OnClick = btnAbastecerClick
     end
-    object btnAlterar: TButton
-      Left = 508
-      Top = 16
-      Width = 116
-      Height = 30
-      Caption = 'Alterar'
-      TabOrder = 1
-      OnClick = btnAlterarClick
-    end
     object btnExcluir: TButton
-      Left = 630
-      Top = 16
-      Width = 116
-      Height = 30
+      Left = 627
+      Top = 10
+      Width = 230
+      Height = 38
       Caption = 'Excluir'
-      TabOrder = 2
+      TabOrder = 1
       OnClick = btnExcluirClick
     end
-    object btnConsultar: TButton
-      Left = 752
-      Top = 16
-      Width = 116
-      Height = 30
-      Caption = 'Consultar'
-      TabOrder = 3
-      OnClick = btnConsultarClick
-    end
     object btnSair: TButton
-      Left = 874
-      Top = 16
+      Left = 871
+      Top = 10
       Width = 116
-      Height = 30
+      Height = 38
       Caption = 'Sair'
-      TabOrder = 4
+      TabOrder = 2
       OnClick = btnSairClick
     end
   end
@@ -72,99 +55,25 @@ object frmAbastecimento: TfrmAbastecimento
     Left = 0
     Top = 0
     Width = 999
-    Height = 359
+    Height = 362
     ActivePage = tbCadastro
     Align = alClient
     TabOrder = 1
     ExplicitWidth = 997
-    ExplicitHeight = 355
+    ExplicitHeight = 358
     object tbLista: TTabSheet
       Caption = 'Lista'
-      object dbgAbastecimento: TDBGrid
-        Left = 0
-        Top = 164
-        Width = 991
-        Height = 165
-        Align = alBottom
-        DataSource = dsAbastecimento
-        TabOrder = 0
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -12
-        TitleFont.Name = 'Segoe UI'
-        TitleFont.Style = []
-        Columns = <
-          item
-            Expanded = False
-            FieldName = 'IDABASTECIMENTO'
-            Title.Caption = 'Id'
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'IDBOMBA'
-            Title.Caption = 'Bomba'
-            Width = 116
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'IDCOMBUSTIVEL'
-            Title.Caption = 'Combustivel'
-            Width = 128
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'IDIMPOSTO'
-            Title.Caption = 'Imposto'
-            Width = 80
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'QTDLITROS'
-            Title.Caption = 'Qdt.Litros'
-            Width = 68
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'DATAABASTECIMENTO'
-            Title.Caption = 'Data'
-            Width = 91
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALORABASTECIMENTO'
-            Title.Caption = 'Valor Abastec. (R$)'
-            Width = 110
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALORIMPOSTO'
-            Title.Caption = 'Valor Imposto (R$)'
-            Width = 115
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'VALORFINALABASTECIMENTO'
-            Title.Caption = 'Valor Final Abastec (R$)'
-            Width = 167
-            Visible = True
-          end>
-      end
       object sgListaAbastecimento: TStringGrid
         Left = 0
         Top = 0
         Width = 991
-        Height = 164
+        Height = 332
         Align = alClient
         FixedCols = 0
-        TabOrder = 1
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goFixedRowDefAlign]
+        TabOrder = 0
+        ExplicitWidth = 989
+        ExplicitHeight = 328
       end
     end
     object tbCadastro: TTabSheet
@@ -233,11 +142,18 @@ object frmAbastecimento: TfrmAbastecimento
         Left = 248
         Top = 184
         Width = 171
-        Height = 23
+        Height = 25
+        TabStop = False
         Alignment = taRightJustify
         EditLabel.Width = 133
         EditLabel.Height = 15
         EditLabel.Caption = 'Valor Abastecimento (R$)'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
         ReadOnly = True
         TabOrder = 6
         Text = ''
@@ -248,11 +164,18 @@ object frmAbastecimento: TfrmAbastecimento
         Left = 487
         Top = 184
         Width = 171
-        Height = 23
+        Height = 25
+        TabStop = False
         Alignment = taRightJustify
         EditLabel.Width = 97
         EditLabel.Height = 15
         EditLabel.Caption = 'Valor Imposto (R$)'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlue
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        ParentFont = False
         TabOrder = 7
         Text = ''
         OnKeyPress = leQtdLitrosKeyPress
@@ -262,12 +185,13 @@ object frmAbastecimento: TfrmAbastecimento
         Top = 182
         Width = 171
         Height = 25
+        TabStop = False
         Alignment = taRightJustify
         EditLabel.Width = 161
         EditLabel.Height = 15
         EditLabel.Caption = 'Valor Final Abastecimento (R$)'
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clNavy
+        Font.Color = clBlue
         Font.Height = -13
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
@@ -283,22 +207,23 @@ object frmAbastecimento: TfrmAbastecimento
         Width = 193
         Height = 24
         ItemsEx = <>
+        Style = csExDropDownList
         TabOrder = 2
       end
       object btnConfirmar: TButton
-        Left = 746
-        Top = 288
-        Width = 116
-        Height = 30
+        Left = 592
+        Top = 244
+        Width = 144
+        Height = 41
         Caption = 'Confirmar'
         TabOrder = 9
         OnClick = btnConfirmarClick
       end
       object btnCancelar: TButton
-        Left = 868
-        Top = 288
-        Width = 116
-        Height = 30
+        Left = 749
+        Top = 244
+        Width = 144
+        Height = 41
         Caption = 'Cancelar'
         TabOrder = 10
         OnClick = btnCancelarClick
@@ -352,10 +277,5 @@ object frmAbastecimento: TfrmAbastecimento
         OnKeyPress = leQtdLitrosKeyPress
       end
     end
-  end
-  object dsAbastecimento: TDataSource
-    DataSet = DataModule1.fdqAbastecimentos
-    Left = 932
-    Top = 34
   end
 end

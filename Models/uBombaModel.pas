@@ -13,8 +13,6 @@ type
       fDescricao: string;
       fTanque: TTanque;
     public
-      constructor Create;
-      Destructor Destroy; override;
       property IdBomba: integer read fIdBomba write fIdBomba;
       property Descricao: string read fDescricao write fDescricao;
       property Tanque: TTanque read fTanque write fTanque;
@@ -22,19 +20,7 @@ type
 
 implementation
 
-
 { TBomba }
-
-constructor TBomba.Create;
-begin
-  //
-end;
-
-destructor TBomba.Destroy;
-begin
-  //
-  inherited;
-end;
 
 end.
 

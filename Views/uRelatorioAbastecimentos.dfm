@@ -2,14 +2,15 @@ object frmRelatorioAbastecimentos: TfrmRelatorioAbastecimentos
   Left = 0
   Top = 0
   Caption = 'Relatorio de Abastecimentos'
-  ClientHeight = 227
-  ClientWidth = 279
+  ClientHeight = 231
+  ClientWidth = 281
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poScreenCenter
   OnShow = FormShow
   TextHeight = 15
   object Label1: TLabel
