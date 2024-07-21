@@ -36,5 +36,6 @@ object frmPrincipalView: TfrmPrincipalView
     Height = 89
     Caption = 'Imprimir'
     TabOrder = 2
+    OnClick = btnImprimirClick
   end
 end

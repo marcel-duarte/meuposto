@@ -129,6 +129,14 @@
         <DCCReference Include="Controller\uAbastecimentoController.pas"/>
         <DCCReference Include="Controller\uCombustivelController.pas"/>
         <DCCReference Include="Controller\uBombaController.pas"/>
+        <DCCReference Include="Reports\uRelatorioAbastecimentosPrint.pas">
+            <Form>relRelatorioAbastecimentosPrint</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Views\uRelatorioAbastecimentos.pas">
+            <Form>frmRelatorioAbastecimentos</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

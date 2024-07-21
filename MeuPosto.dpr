@@ -21,7 +21,9 @@ uses
   uPrincipalView in 'Views\uPrincipalView.pas' {frmPrincipalView},
   uAbastecimentoController in 'Controller\uAbastecimentoController.pas',
   uCombustivelController in 'Controller\uCombustivelController.pas',
-  uBombaController in 'Controller\uBombaController.pas';
+  uBombaController in 'Controller\uBombaController.pas',
+  uRelatorioAbastecimentosPrint in 'Reports\uRelatorioAbastecimentosPrint.pas' {relRelatorioAbastecimentosPrint},
+  uRelatorioAbastecimentos in 'Views\uRelatorioAbastecimentos.pas' {frmRelatorioAbastecimentos};
 
 {$R *.res}
 

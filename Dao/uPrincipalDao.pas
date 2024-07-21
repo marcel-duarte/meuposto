@@ -15,10 +15,14 @@ type
     FDConnection: TFDConnection;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
     FDQuery: TFDQuery;
-    fdqAbastecimentos: TFDQuery;
-    fdqAbastecimento: TFDQuery;
-    fdqImposto: TFDQuery;
-    FDTransaction: TFDTransaction;
+    FDQuery1: TFDQuery;
+    FDQuery1DATAABASTECIMENTO: TDateField;
+    FDQuery1IDBOMBA: TIntegerField;
+    FDQuery1DESC_BOMBA: TStringField;
+    FDQuery1IDTANQUE: TIntegerField;
+    FDQuery1DESC_TANQUE: TStringField;
+    FDQuery1TOTAL_ABAST_BRT_DIA: TFMTBCDField;
+    FDQuery1TOTAL_ABAST_LIQ_DIA: TFMTBCDField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -35,9 +39,6 @@ type
     procedure Close;
     function IsEmpty: Boolean;
     function ListaRegistros: TFDQuery;
-    //
-    procedure CarregarAbastecimentos;
-    procedure CarregarAbastecimento(pAbastecimento: TAbastecimento; Id: Integer);
   end;
 
 var
@@ -106,32 +107,6 @@ end;
 procedure TDataModule1.StartTransaction;
 begin
   FDConnection.StartTransaction;
-end;
-
-procedure TDataModule1.CarregarAbastecimento(pAbastecimento: TAbastecimento; Id: Integer);
-begin
-  fdqAbastecimento.SQL.Clear;
-  fdqAbastecimento.SQL.Text := 'SELECT AB.IDABASTECIMENTO, AB.IDBOMBA, AB.IDCOMBUSTIVEL, AB.IDIMPOSTO,'+
-    ' AB.QTDLITROS, AB.DATAABASTECIMENTO, AB.VALORABASTECIMENTO, AB.VALORIMPOSTO, '+
-    ' AB.VALORFINALABASTECIMENTO '+
-    ' FROM ABASTECIMENTO AB '+
-    ' AB.IDABASTECIMENTO = ' + Id.ToString;
-  fdqAbastecimento.Open;
-
-  with pAbastecimento do
-  begin
-
-  end;
-end;
-
-procedure TDataModule1.CarregarAbastecimentos;
-begin
-  fdqAbastecimentos.SQL.Clear;
-  fdqAbastecimentos.SQL.Text := 'SELECT AB.IDABASTECIMENTO, AB.IDBOMBA, AB.IDCOMBUSTIVEL, AB.IDIMPOSTO,'+
-    ' AB.QTDLITROS, AB.DATAABASTECIMENTO, AB.VALORABASTECIMENTO, AB.VALORIMPOSTO, '+
-    ' AB.VALORFINALABASTECIMENTO '+
-    ' FROM ABASTECIMENTO AB ';
-  fdqAbastecimentos.Open;
 end;
 
 procedure TDataModule1.Close;

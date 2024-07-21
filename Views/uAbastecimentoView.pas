@@ -164,7 +164,7 @@ begin
   leValorAbastecimento.Text := FormatFloat('#,##0.00',vValor);
   vValor := fAbastecimentoController.CalculaImposto(StrToFloat(leValorAbastecimento.Text), StrToFloat(lePercentualImposto.Text));
   leValorImposto.Text := FormatFloat('#,##0.00',vValor);
-  vValor := StrToFloat(leValorAbastecimento.Text) + StrToFloat(leValorImposto.Text);
+  vValor := StrToFloat(leValorAbastecimento.Text) - StrToFloat(leValorImposto.Text);
   leValorFinalAbastecimento.Text := FormatFloat('#,##0.00',vValor);
 
   /// criar uma proc q calcula tudo passando params e devolvendo para os campos
@@ -374,6 +374,7 @@ var
   vErro: string;
 begin
   vAbastecimento := TAbastecimento.Create;
+  vAbastecimento.DataAbastecimento := StrToDate(leDataAbastecimento.Text);
   vAbastecimento.Bomba := fBombaController.CarregarBomba(cbxBomba.ItemsEx[cbxBomba.ItemIndex].ImageIndex);
   vAbastecimento.Combustivel := fCombustivelController.CarregarCombustivel(cbxCombustivel.ItemsEx[cbxCombustivel.ItemIndex].ImageIndex);
   vAbastecimento.Imposto := fImpostoController.CarregarImposto(cbxImposto.ItemsEx[cbxImposto.ItemIndex].ImageIndex);

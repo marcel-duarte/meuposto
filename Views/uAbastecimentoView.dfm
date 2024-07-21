@@ -20,6 +20,8 @@ object frmAbastecimento: TfrmAbastecimento
     Height = 62
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 355
+    ExplicitWidth = 997
     object btnAbastecer: TButton
       Left = 386
       Top = 16
@@ -74,12 +76,14 @@ object frmAbastecimento: TfrmAbastecimento
     ActivePage = tbCadastro
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 997
+    ExplicitHeight = 355
     object tbLista: TTabSheet
       Caption = 'Lista'
       object dbgAbastecimento: TDBGrid
         Left = 0
-        Top = 168
-        Width = 993
+        Top = 164
+        Width = 991
         Height = 165
         Align = alBottom
         DataSource = dsAbastecimento
@@ -156,15 +160,11 @@ object frmAbastecimento: TfrmAbastecimento
       object sgListaAbastecimento: TStringGrid
         Left = 0
         Top = 0
-        Width = 993
-        Height = 168
+        Width = 991
+        Height = 164
         Align = alClient
         FixedCols = 0
         TabOrder = 1
-        ExplicitLeft = 16
-        ExplicitTop = 3
-        ExplicitWidth = 793
-        ExplicitHeight = 105
       end
     end
     object tbCadastro: TTabSheet
