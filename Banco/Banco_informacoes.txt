@@ -1,0 +1,2 @@
+SYSDBA
+SENHA: 123456 ou masterkey
