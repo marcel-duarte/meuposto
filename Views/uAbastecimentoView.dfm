@@ -1,7 +1,7 @@
 object frmAbastecimento: TfrmAbastecimento
   Left = 0
   Top = 0
-  Caption = 'Abastecimento'
+  Caption = 'Gest'#227'o de Abastecimentos'
   ClientHeight = 420
   ClientWidth = 997
   Color = clBtnFace

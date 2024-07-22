@@ -1,7 +1,7 @@
 object frmPrincipalView: TfrmPrincipalView
   Left = 0
   Top = 0
-  Caption = 'Principal'
+  Caption = 'Sistema Meu Posto'
   ClientHeight = 216
   ClientWidth = 557
   Color = clBtnFace
