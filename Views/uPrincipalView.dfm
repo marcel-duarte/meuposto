@@ -31,7 +31,7 @@ object frmPrincipalView: TfrmPrincipalView
     OnClick = btnSairClick
   end
   object btnImprimir: TButton
-    Left = 200
+    Left = 204
     Top = 56
     Width = 137
     Height = 89

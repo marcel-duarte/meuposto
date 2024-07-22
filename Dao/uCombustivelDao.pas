@@ -41,7 +41,6 @@ begin
   Result.IdCombustivel := FDConnection.GetValue(0);
   Result.Descricao := FDConnection.GetValue(1);
   Result.ValorLitro := FDConnection.GetValue(2);
-
 end;
 
 constructor TCombustivelDao.Create;

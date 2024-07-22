@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions/>
+  <Transactions>
+    <Transaction>2024/07/21 18:42:52.665,C:\Marcel\Projetos\Delphi\MeuPosto\ProjetoMeuPosto.groupproj=C:\Users\marce\OneDrive\Documentos\Embarcadero\Studio\Projects\ProjectGroup1.groupproj</Transaction>
+  </Transactions>
   <Default.Personality>
     <Projects ActiveProject="C:\Marcel\Projetos\Delphi\MeuPosto\MeuPosto.dproj"/>
   </Default.Personality>

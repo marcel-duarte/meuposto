@@ -305,6 +305,30 @@ object relRelatorioAbastecimentosPrint: TrelRelatorioAbastecimentosPrint
         ParentFont = False
       end
     end
+    object RLBand1: TRLBand
+      Left = 38
+      Top = 236
+      Width = 718
+      Height = 26
+      BandType = btFooter
+      object RLSystemInfo3: TRLSystemInfo
+        Left = 672
+        Top = 5
+        Width = 46
+        Height = 16
+        Align = faRightOnly
+        AutoSize = False
+        Info = itPageNumber
+        Text = ''
+      end
+      object RLLabel9: TRLLabel
+        Left = 632
+        Top = 6
+        Width = 31
+        Height = 16
+        Caption = 'P'#225'g:'
+      end
+    end
   end
   object dsRelatorioAbastecimentos: TDataSource
     Left = 687

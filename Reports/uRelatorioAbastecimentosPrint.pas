@@ -33,6 +33,9 @@ type
     rldbValorAbastecimentoBruto: TRLDBText;
     rllValorAbastBruto: TRLLabel;
     rllValorAbastLiquido: TRLLabel;
+    RLBand1: TRLBand;
+    RLSystemInfo3: TRLSystemInfo;
+    RLLabel9: TRLLabel;
     procedure RLReport1BeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

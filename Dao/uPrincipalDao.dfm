@@ -4,11 +4,10 @@ object DataModule1: TDataModule1
   Width = 494
   object FDConnection: TFDConnection
     Params.Strings = (
-      'Database=C:\Marcel\Projetos\Delphi\MeuPosto\Banco\DBMEUPOSTO.FDB'
+      'Database=C:\Marcel\Projetos\Delphi\MeuPosto\Banco\DBMeuPosto.fdb'
       'User_Name=SYSDBA'
       'Password=masterkey'
       'DriverID=FB')
-    Connected = True
     LoginPrompt = False
     Left = 48
     Top = 32

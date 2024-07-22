@@ -103,7 +103,7 @@
         </DelphiCompile>
         <DCCReference Include="Controller\uImpostoController.pas"/>
         <DCCReference Include="Models\uAbastecimentoModel.pas"/>
-        <DCCReference Include="Models\UBombaModel.pas"/>
+        <DCCReference Include="Models\uBombaModel.pas"/>
         <DCCReference Include="Models\uCombustivelModel.pas"/>
         <DCCReference Include="Models\uImpostoModel.pas"/>
         <DCCReference Include="Models\uTanqueModel.pas"/>

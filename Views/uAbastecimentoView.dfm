@@ -74,28 +74,21 @@ object frmAbastecimento: TfrmAbastecimento
       Caption = 'Cadastro'
       ImageIndex = 1
       object Label1: TLabel
-        Left = 72
+        Left = 40
         Top = 99
         Width = 38
         Height = 15
         Caption = 'Bomba'
       end
-      object Label2: TLabel
-        Left = 296
-        Top = 99
-        Width = 67
-        Height = 15
-        Caption = 'Combustivel'
-      end
       object Label3: TLabel
-        Left = 615
+        Left = 616
         Top = 99
         Width = 44
         Height = 15
         Caption = 'Imposto'
       end
       object leId: TLabeledEdit
-        Left = 72
+        Left = 40
         Top = 56
         Width = 57
         Height = 23
@@ -107,7 +100,7 @@ object frmAbastecimento: TfrmAbastecimento
         Text = ''
       end
       object leQtdLitros: TLabeledEdit
-        Left = 72
+        Left = 40
         Top = 184
         Width = 112
         Height = 23
@@ -115,13 +108,13 @@ object frmAbastecimento: TfrmAbastecimento
         EditLabel.Width = 52
         EditLabel.Height = 15
         EditLabel.Caption = 'Qtd Litros'
-        TabOrder = 5
+        TabOrder = 4
         Text = ''
         OnExit = leQtdLitrosExit
         OnKeyPress = leQtdLitrosKeyPress
       end
       object leDataAbastecimento: TLabeledEdit
-        Left = 153
+        Left = 121
         Top = 56
         Width = 112
         Height = 23
@@ -133,7 +126,7 @@ object frmAbastecimento: TfrmAbastecimento
         Text = ''
       end
       object leValorAbastecimento: TLabeledEdit
-        Left = 248
+        Left = 232
         Top = 184
         Width = 171
         Height = 25
@@ -149,13 +142,13 @@ object frmAbastecimento: TfrmAbastecimento
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
-        TabOrder = 6
+        TabOrder = 5
         Text = ''
         OnExit = leValorAbastecimentoExit
         OnKeyPress = leQtdLitrosKeyPress
       end
       object leValorImposto: TLabeledEdit
-        Left = 487
+        Left = 479
         Top = 184
         Width = 171
         Height = 25
@@ -170,7 +163,7 @@ object frmAbastecimento: TfrmAbastecimento
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 6
         Text = ''
         OnKeyPress = leQtdLitrosKeyPress
       end
@@ -191,18 +184,19 @@ object frmAbastecimento: TfrmAbastecimento
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
-        TabOrder = 8
+        TabOrder = 7
         Text = ''
         OnKeyPress = leQtdLitrosKeyPress
       end
       object cbxBomba: TComboBoxEx
-        Left = 72
+        Left = 40
         Top = 120
         Width = 193
         Height = 24
         ItemsEx = <>
         Style = csExDropDownList
         TabOrder = 2
+        OnSelect = cbxBombaSelect
       end
       object btnConfirmar: TButton
         Left = 592
@@ -210,7 +204,7 @@ object frmAbastecimento: TfrmAbastecimento
         Width = 144
         Height = 41
         Caption = 'Confirmar'
-        TabOrder = 9
+        TabOrder = 8
         OnClick = btnConfirmarClick
       end
       object btnCancelar: TButton
@@ -219,31 +213,21 @@ object frmAbastecimento: TfrmAbastecimento
         Width = 144
         Height = 41
         Caption = 'Cancelar'
-        TabOrder = 10
+        TabOrder = 9
         OnClick = btnCancelarClick
       end
-      object cbxCombustivel: TComboBoxEx
-        Left = 296
-        Top = 120
-        Width = 185
-        Height = 24
-        ItemsEx = <>
-        Style = csExDropDownList
-        TabOrder = 3
-        OnSelect = cbxCombustivelSelect
-      end
       object cbxImposto: TComboBoxEx
-        Left = 615
+        Left = 616
         Top = 120
         Width = 186
         Height = 24
         ItemsEx = <>
         Style = csExDropDownList
-        TabOrder = 4
+        TabOrder = 3
         OnSelect = cbxImpostoSelect
       end
       object lePercentualImposto: TLabeledEdit
-        Left = 806
+        Left = 803
         Top = 120
         Width = 93
         Height = 23
@@ -252,21 +236,47 @@ object frmAbastecimento: TfrmAbastecimento
         EditLabel.Height = 15
         EditLabel.Caption = 'Perc. Imposto (%)'
         Enabled = False
-        TabOrder = 11
+        TabOrder = 10
         Text = ''
         OnKeyPress = leQtdLitrosKeyPress
       end
       object leValorLitro: TLabeledEdit
-        Left = 487
+        Left = 483
         Top = 120
-        Width = 93
+        Width = 91
         Height = 23
         Alignment = taRightJustify
         EditLabel.Width = 77
         EditLabel.Height = 15
         EditLabel.Caption = 'Valor Litro (R$)'
         Enabled = False
+        TabOrder = 11
+        Text = ''
+        OnKeyPress = leQtdLitrosKeyPress
+      end
+      object leTanque: TLabeledEdit
+        Left = 236
+        Top = 120
+        Width = 108
+        Height = 23
+        EditLabel.Width = 38
+        EditLabel.Height = 15
+        EditLabel.Caption = 'Tanque'
+        Enabled = False
         TabOrder = 12
+        Text = ''
+        OnKeyPress = leQtdLitrosKeyPress
+      end
+      object leCombustivel: TLabeledEdit
+        Left = 347
+        Top = 120
+        Width = 133
+        Height = 23
+        EditLabel.Width = 67
+        EditLabel.Height = 15
+        EditLabel.Caption = 'Combustivel'
+        Enabled = False
+        TabOrder = 13
         Text = ''
         OnKeyPress = leQtdLitrosKeyPress
       end
